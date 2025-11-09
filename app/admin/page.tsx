@@ -1,31 +1,27 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import BottomNavBar from "./_components/BottomNavBar";
-import Feed from "./_components/Feed";
-import UpperNavbar from "./_components/UpperNavbar";
-import MidNavBar from "./_components/MidNavbar";
-import Rankings from "./_components/Rankings";
-import Content from "./_components/Content";
+import BottomNavBar from "../_components/BottomNavBar";
+import UpperNavbar from "../_components/UpperNavbar";
+import MidNavBar from "../_components/MidNavbar";
+import Rankings from "../_components/Rankings";
+import Content from "../_components/Content";
+import AdminFeed from "./_components/AdminFeed";
 
-export default function Home() {
+export default function AdminPage() {
   const [scrollY, setScrollY] = useState(0);
 
-  // RIGHT sidebar states/refs (Rankings)  ---------------------------
-  const [lockRanking, setLockRanking] = useState(false); // <- true when we need to fix it
-  const [hoverRanking, setHoverRanking] = useState(false); // <- true when mouse over fixed panel
-  const rankingAnchorRef = useRef<HTMLDivElement | null>(null); // <- original absolute placement
-  const fixedRankingRef = useRef<HTMLDivElement | null>(null); // <- fixed clone
-  // -----------------------------------------------------------------
+  const [lockRanking, setLockRanking] = useState(false);
+  const [hoverRanking, setHoverRanking] = useState(false);
+  const rankingAnchorRef = useRef<HTMLDivElement | null>(null);
+  const fixedRankingRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const onScroll = () => {
       setScrollY(window.scrollY);
 
-      // measure ranking original box to know when to lock it
       if (rankingAnchorRef.current) {
         const rect = rankingAnchorRef.current.getBoundingClientRect();
-        // same threshold as left side: when it reaches ~90px from top, lock it
         if (rect.top <= 90) {
           setLockRanking(true);
         } else {
@@ -38,7 +34,6 @@ export default function Home() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // fade top two bars between 0 and 200px scroll
   const fadeStart = 0;
   const fadeEnd = 200;
   const progress = Math.min(
@@ -47,12 +42,11 @@ export default function Home() {
   );
   const topOpacity = 1 - progress;
 
-  // height of top bars (adjust if necessary)
   const topBarsHeight = 240;
 
   return (
     <div className="min-h-screen bg-white">
-      {/* 1) fixed top bars */}
+      {/* fixed top bars */}
       <div className="fixed top-0 left-0 w-full z-50 pointer-events-none">
         <div
           className="pointer-events-auto transition-opacity duration-300"
@@ -68,35 +62,32 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2) spacer for fixed bars */}
+      {/* spacer */}
       <div style={{ height: topBarsHeight }} />
 
-      {/* 3) sticky bottom navbar */}
+      {/* sticky bottom navbar */}
       <div className="sticky top-0 z-40 bg-white">
         <div className="mt-10">
-          {/* small margin to separate from mid bar */}
           <BottomNavBar />
         </div>
       </div>
 
-      {/* 4) feed area */}
+      {/* main */}
       <main className="pb-20 flex justify-center">
-        {/* rail */}
         <div className="relative w-full max-w-[1349px]">
-          {/* LEFT sidebar (content) */}
+          {/* left sidebar */}
           <Content />
 
-          {/* FEED — always centered */}
+          {/* admin feed */}
           <div className="flex justify-center">
-            <Feed />
+            <AdminFeed />
           </div>
 
-          {/* RIGHT sidebar (original position) */}
+          {/* right sidebar (original) */}
           <div
             ref={rankingAnchorRef}
             className="absolute right-0 top-10"
             style={{
-              // when fixed version is showing, hide this original
               opacity: lockRanking ? 0 : 1,
               pointerEvents: lockRanking ? "none" : "auto",
             }}
@@ -106,15 +97,15 @@ export default function Home() {
         </div>
       </main>
 
-      {/* RIGHT sidebar — fixed version with smart scroll */}
+      {/* fixed right sidebar */}
       {lockRanking && (
         <div
           ref={fixedRankingRef}
-          className="fixed z-40"
+          className="fixed z-40 no-scrollbar"
           style={{
-            top: 90, // same trigger line we used to lock
-            right: "calc((100vw - 1349px) / 2)", // keep inside rail
-            maxHeight: "calc(100vh - 110px)", // room for top bars / nav
+            top: 90,
+            right: "calc((100vw - 1349px) / 2)",
+            maxHeight: "calc(100vh - 110px)",
             overflowY: "auto",
           }}
           onMouseEnter={() => setHoverRanking(true)}
@@ -128,12 +119,9 @@ export default function Home() {
             const isDown = e.deltaY > 0;
             const isUp = e.deltaY < 0;
 
-            // if at top and scroll up -> let page scroll
             if (isUp && scrollTop === 0) return;
-            // if at bottom and scroll down -> let page scroll
             if (isDown && scrollTop + clientHeight >= scrollHeight) return;
 
-            // otherwise, consume and scroll inside the panel
             e.preventDefault();
             el.scrollTop += e.deltaY;
           }}
