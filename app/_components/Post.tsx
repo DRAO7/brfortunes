@@ -18,8 +18,7 @@ export default function Post({
   logoUrl,
 }: PostProps) {
   return (
-    <div className="w-[859px] h-[795px] p-2.5 rounded-[10px] outline outline-1 outline-offset-[-1px] outline-black/5 inline-flex flex-col justify-start items-start gap-[5px]">
-      {/* HEADER */}
+    <div className="w-[859px] p-2.5 rounded-[10px] outline outline-1 outline-offset-[-1px] outline-black/5 inline-flex flex-col justify-start items-start gap-[5px] bg-white">
       {/* HEADER */}
       <div className="w-full flex items-center gap-4">
         {/* Avatar */}
@@ -48,7 +47,7 @@ export default function Post({
           </div>
 
           {/* Company */}
-          <span className="text-black/70 text-base font-normal leading-5 tracking-tight">
+          <span className="text-black/70 text-base font-normal leading-5 tracking-tight break-words">
             {company}
           </span>
         </div>
@@ -56,7 +55,7 @@ export default function Post({
 
       {/* TEXT */}
       <div className="w-full p-2.5">
-        <p className="text-black text-base font-medium leading-6 tracking-tight">
+        <p className="text-black text-base font-medium leading-6 tracking-tight break-words whitespace-pre-line">
           {text}
         </p>
       </div>
@@ -64,7 +63,7 @@ export default function Post({
       {/* IMAGE */}
       <div className="self-stretch p-2.5 flex flex-col justify-start items-start">
         <img
-          className="self-stretch h-[546px] object-cover rounded-[6px]"
+          className="w-full max-h-[546px] object-cover rounded-[6px]"
           src={imageUrl}
           alt="post content"
         />
