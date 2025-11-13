@@ -36,6 +36,7 @@ export default function AdminFeed({ dbPost }: AdminFeedProps) {
               logoUrl={dbPost.logoUrl ?? "/placeholder-logo.png"}
               imageUrl={dbPost.imageUrl ?? "/placeholder-image.png"}
               text={dbPost.content ?? ""}
+              postId={dbPost.id} // <-- added
             />
           )}
 
@@ -48,6 +49,7 @@ export default function AdminFeed({ dbPost }: AdminFeedProps) {
             text={`“Setembro é soja no chão”. De Passo Fundo - RS a Vilhena - RO, é iniciada a corrida da Soja. “Fé em Deus e pé na tábua”. 
                     Enquanto os produtores iniciam um ciclo de caixa longo e angustiante, repleto de riscos e variáveis complexas (vento, chuva etc), a Fertipar ganha em todos os cenários. 
                     Os fertilizantes já foram aplicados e as duplicadas já foram emitidas.`}
+            postId="fertipar-soja" // <-- added
           />
 
           <Post
@@ -58,6 +60,7 @@ export default function AdminFeed({ dbPost }: AdminFeedProps) {
             imageUrl="/kabum.png"
             text={`Os irmãos Thiago e Leandro Ramos venderam a KaBuM! para a Magalu em 2021 por R$ 3,5 bi (dinheiro + ações). Depois, acusaram Itaú BBA e Magalu de conflito de interesses e prejuízo com a queda das ações. A Magalu os demitiu por justa causa em 2023, alegando concorrência desleal e mau uso de recursos. Eles abriram disputa arbitral para rever a venda, enquanto a Magalu nega irregularidades.
                     Receberam apenas 1bi. Porém já foi o suficente para se locomover com conforto e segurança.`}
+            postId="magalu-kabum" // <-- added
           />
         </div>
       </section>
